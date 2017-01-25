@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>详情页</title>
+        <link rel="stylesheet" href="../static/css/semantic.css" media="screen" title="no title" charset="utf-8">
+    </head>
+    <body>
+        <div class="ui basic segment" style="padding:0;">
+            <div class="ui inverted fixed menu">
+                <div  class="ui simple dropdown item">
+                    <a href="{% url 'index' %}">五畿七道</a>
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                    {% for one in Roadlist %}
+                        <a href="?gender={{one.gender}}" class="item">
+                            {{one.name}}
+                        </a>
+                    {% endfor %}
+                    </div>
+                </div>
+                <div class="ui simple dropdown item">
+                    <a href="?gender=jj">近畿</a>
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                    {% for one in Domainjj %}
+                        <a href="{% url 'domain' one.id %}" class="item">
+                            {{one.name}}
+                        </a>
+                    {% endfor %}
+                    </div>
+                </div>
+                <div class="ui simple dropdown item">
+                    <a href="?gender=dhd">东海道</a>
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                    {% for one in Domaindhd %}
+                        <a href="{% url 'domain' one.id %}" class="item">
+                            {{one.name}}
+                        </a>
+                    {% endfor %}
+                    </div>
+                </div>
+                <div class="ui simple dropdown item">
+                    <a href="?gender=xhd">西海道</a>
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                    {% for one in Domainxhd %}
+                        <a href="{% url 'domain' one.id %}" class="item">
+                            {{one.name}}
+                        </a>
+                    {% endfor %}
+                    </div>
+                </div>
+                <div class="ui simple dropdown item">
+                    <a href="?gender=nhd">南海道</a>
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                    {% for one in Domainnhd %}
+                        <a href="{% url 'domain' one.id %}" class="item">
+                            {{one.name}}
+                        </a>
+                    {% endfor %}
+                    </div>
+                </div>
+                <div class="ui simple dropdown item">
+                    <a href="?gender=dsd">东山道</a>
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                    {% for one in Domaindsd %}
+                        <a href="{% url 'domain' one.id %}" class="item">
+                            {{one.name}}
+                        </a>
+                    {% endfor %}
+                    </div>
+                </div>
+                <div class="ui simple dropdown item">
+                    <a href="?gender=bld">北陆道</a>
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                    {% for one in Domainbld %}
+                        <a href="{% url 'domain' one.id %}" class="item">
+                            {{one.name}}
+                        </a>
+                    {% endfor %}
+                    </div>
+                </div>
+                <div class="ui simple dropdown item">
+                    <a href="?gender=syd">山阴道</a>
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                    {% for one in Domainsyd %}
+                        <a href="{% url 'domain' one.id %}" class="item">
+                            {{one.name}}
+                        </a>
+                    {% endfor %}
+                    </div>
+                </div>
+                <div class="ui simple dropdown item">
+                    <a href="?gender=syad">山阳道</a>
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                    {% for one in Domainsyad %}
+                        <a href="{% url 'domain' one.id %}" class="item">
+                            {{one.name}}
+                        </a>
+                    {% endfor %}
+                    </div>
+                </div>
+                <div class="right menu">
+                    <a href="{% url 'index' %}" class="item">返回首页</a>
+                </div>
+            </div>
+        </div>
+        <div class="ui basic inverted segment container" style="width:700px;border-radius:10px;">
+            <div class="ui basic inverted segment container" style="width:700px;height:400px;">
+                <img class="ui left floated image" src="/static/uploads/{{ thedomain.photo_add }}" style="width:400px;height:400px;">
+                <p>分国：{{thedomain.name}}</p>
+                <p>分道：{{thedomain.belong_to}}</p>
+                <p>石高（万石）：{{thedomain.salary}}</p>
+                <p>特点：{{thedomain.summary}}</p>
+                <p>分郡：{{thedomain.component}}</p>
+                <p>特产：{{thedomain.product}}</p>
+                <p>名胜：{{thedomain.scenic}}</p>
+                <p>主要势力：{{thedomain.family}}</p>
+            </div>
+<hr>
+            <div class="ui basic inverted segment container" style="width:700px;">
+                <img class="ui right bottom aligned floated image" src="/static/uploads/{{ thedomain.photo }}" style="width:300px;height:300px;">
+                <p>梗概：{{thedomain.biography}}</p>
+            </div>
+        </div>
+        <hr>
+        <div class="ui basic inverted segment container" style="width:700px;border-radius:10px;">
+            <h2>Comments</h2>
+            {% if best_comment %}
+                <a class="ui red ribbon label">Best</a>
+                <span>{{ best_comment.name }}</span>
+                <p>{{ best_comment.comment }}</p>
+                <hr>
+            {% endif %}
+            {% for one in comment_list %}
+                <p><img src="/static/uploads/{{ one.belong_for.profile.profile_image }}" class="ui avatar image" /><span>{{ one.belong_for }}</span></p>
+                <p>{{ one.comment }}</p>
+            {% endfor %}
+            {% if request.user.is_authenticated %}
+                <form class="ui error form" method="post">
+                    {% if form.errors %}
+                        <div class="ui error message">
+                            {{ form.errors}}
+                        </div>
+                        {% for field in form %}
+                            <div class="{{ field.errors|yesno:"error, " }} field">
+                                {{ field.label }}
+                                {{ field }}
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        {% for field in form  %}
+                            <div class="field">
+                                {{ field.label }}
+                                {{ field }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    {% csrf_token %}
+                    <button type="submit" class="ui red button">提交</button>
+                </form>
+            {% endif %}
+
+        </div>
+    </body>
+</html>

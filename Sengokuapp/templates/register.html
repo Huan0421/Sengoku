@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>注册</title>
+        <link rel="stylesheet" href="../static/css/semantic.css" media="screen" title="no title" charset="utf-8">
+        <audio src="../static/auto/Booraye.mp3" autoplay></audio>
+    </head>
+    <body>
+        <img src="{% static '/uploads/赤备冲锋.jpg' %}" style="position:absolute;width:100%;height:100%;z-index:-3;"/>
+        <div class="ui basic segment" style="padding:0;">
+            <div class="ui inverted menu">
+                <a href="{% url 'index' %}" class="ui simple dropdown active item">返回首页</a>
+            </div>
+        </div>
+        <div class="ui grid segment" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:600px;">
+            <div class="five wide column" style="padding:0;">
+                <div class="ui basic segment" style="background:url({% static '/uploads/red_regi.jpg' %});background-size:cover;height:324px;padding:0;">
+                    <h4 class="ui inverted header" style="margin:0;"><i class="angle left icon"></i>註冊</h4>
+                <h1 class="ui inverted center aligned header" style="font-size: 40px;margin-top:55px">
+                    <p class="sub header">
+                        Welcome to
+                    </p>
+                    戦國網
+                </h1>
+                </div>
+            </div>
+            <div class="eleven wide column">
+                <form class="ui form" method="post" enctype = "multipart/form-data">
+                    {{ form.as_p }}
+                    {% csrf_token %}
+                    <button type="submit" class="ui red button">提交</button>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>
