@@ -16,16 +16,18 @@ Including another URLconf
 from django.conf.urls import url
 from django.conf.urls.static import static
 from django.contrib import admin
-from Sengokuapp.views import index,domain,register,login_f,user_info,message_f
+from Sengokuapp.views import index,domain,register,login_f,user_info,message_f,family,families
 from Sengoku import settings
 from django.contrib.auth.views import logout
 
 urlpatterns = [
     url(r'^$', index, name='index'),
+    url(r'^family', family, name='family'),
     url(r'^register', register, name='register'),
     url(r'^login_f', login_f, name='login_f'),
     url(r'^message_f', message_f, name='message_f'),
     url(r'^domain/(?P<domainid>\d+)', domain, name='domain'),
+    url(r'^families/(?P<familyid>\d+)', families, name='families'),
     url(r'^admin/', admin.site.urls),
     url(r'^logout/$', logout, {'next_page':'index'},name='logout'),
     url(r'^user_info', user_info, name='user_info'),

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>戦國網（公测版）</title>
+        <link rel="stylesheet" href="{% static '../static/css/semantic.css' %}" media="screen" title="no title" charset="utf-8">
+        <audio src="../static/auto/Japanese.mp3" autoplay></audio>
+    </head>
+    <body id="app">
+        <div class="ui basic segment" style="padding:0;">
+            <div class="ui inverted fixed menu">
+                <div  class="ui simple item">
+                    <a href="{% url 'family' %}">返回首页</a>
+                </div>
+                <div class="ui simple dropdown item">
+                    <a href="?gender=jj">近畿</a>
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                    {% for one in Domainjj %}
+                        <a href="{% url 'families' one.id %}" class="item">
+                            {{one.name}}
+                        </a>
+                    {% endfor %}
+                    </div>
+                </div>
+                <div class="ui simple dropdown item">
+                    <a href="?gender=dhd">东海道</a>
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                    {% for one in Domaindhd %}
+                        <a href="{% url 'families' one.id %}" class="item">
+                            {{one.name}}
+                        </a>
+                    {% endfor %}
+                    </div>
+                </div>
+                <div class="ui simple dropdown item">
+                    <a href="?gender=xhd">西海道</a>
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                    {% for one in Domainxhd %}
+                        <a href="{% url 'families' one.id %}" class="item">
+                            {{one.name}}
+                        </a>
+                    {% endfor %}
+                    </div>
+                </div>
+                <div class="ui simple dropdown item">
+                    <a href="?gender=nhd">南海道</a>
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                    {% for one in Domainnhd %}
+                        <a href="{% url 'families' one.id %}" class="item">
+                            {{one.name}}
+                        </a>
+                    {% endfor %}
+                    </div>
+                </div>
+                <div class="ui simple dropdown item">
+                    <a href="?gender=dsd">东山道</a>
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                    {% for one in Domaindsd %}
+                        <a href="{% url 'families' one.id %}" class="item">
+                            {{one.name}}
+                        </a>
+                    {% endfor %}
+                    </div>
+                </div>
+                <div class="ui simple dropdown item">
+                    <a href="?gender=bld">北陆道</a>
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                    {% for one in Domainbld %}
+                        <a href="{% url 'families' one.id %}" class="item">
+                            {{one.name}}
+                        </a>
+                    {% endfor %}
+                    </div>
+                </div>
+                <div class="ui simple dropdown item">
+                    <a href="?gender=syd">山阴道</a>
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                    {% for one in Domainsyd %}
+                        <a href="{% url 'families' one.id %}" class="item">
+                            {{one.name}}
+                        </a>
+                    {% endfor %}
+                    </div>
+                </div>
+                <div class="ui simple dropdown item">
+                    <a href="?gender=syad">山阳道</a>
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                    {% for one in Domainsyad %}
+                        <a href="{% url 'families' one.id %}" class="item">
+                            {{one.name}}
+                        </a>
+                    {% endfor %}
+                    </div>
+                </div>
+                <div class="right menu">
+                    {% if request.user.is_authenticated %}
+                        <a class="item" href="{% url 'user_info' %}"><img class="ui avatar image" src="/static/uploads/{{ request.user.profile.profile_image }}"><span>{{ request.user.username }}</span></a>
+                        <a class="item" href="{% url 'message_f' %}">留言</a>
+                        <a class="item" href="{% url 'logout' %}">退出</a>
+                    {% else %}
+                        <a class="item" href="{% url 'message_f' %}">留言</a>
+                        <a class="item" href="{% url 'register' %}">注册</a>
+                        <a class="item" href="{% url 'login_f' %}">登录</a>
+                    {% endif %}
+
+
+                </div>
+            </div>
+        </div>
+        <div class="ui basic segment"></div>
+        <div class="ui basic segment container" style="width:1000px;">
+            <div class="ui three column grid">
+                {% for one in Thelist %}
+                    <div class="column">
+                        <a href="{% url 'families' one.id %}" class="ui fluid card" style="width:300px;">
+                            <div class="ui slide masked reveal image">
+                                <img class="visible content" src="/static/uploads/{{ one.photo }}">
+                                <img class="hidden content" src="/static/uploads/{{ one.photo_add }}">
+                            </div>
+                            <div style="z-index:3;position:absolute;left:100%;top:100%;transform:translate(-100%,-100%);width:200px;padding:10px;">
+                                {% if one.salary %}
+                                    <h4 class="ui aligned right header" href="#">{{ one.name }}{{ one.salary }}万石</h4>
+                                {% else %}
+                                    <h4 class="ui right aligned header" href="#">{{ one.name }}</h4>
+                                {% endif %}
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="ui basic segment container" style="width:200px;">
+            <div class="ui buttons">
+                {% if Thelist.has_previous %}
+                    <a href="?page={{ Thelist.previous_page_number}}" class="ui animated fade inverted red button">
+                        <div class="visible content"><i class="left arrow icon"></i></div>
+                        <div class="hidden content">{{ Thelist.previous_page_number}}</div>
+                    </a>
+                {% else %}
+                    <button class="ui animated fade inverted red disabled button">
+                        <div class="visible content"><i class="left arrow icon"></i></div>
+                        <div class="hidden content">before</div>
+                    </button>
+                {% endif %}
+                <a href="?page={{ Thelist.number}}" class="ui inverted red button">{{ Thelist.number }}</a>
+                {% if Thelist.has_next %}
+                    <a href="?page={{ Thelist.next_page_number}}" class="ui animated fade inverted red button">
+                        <div class="visible content"><i class="right arrow icon"></i></div>
+                        <div class="hidden content">{{ Thelist.next_page_number}}</div>
+                    </a>
+                {% else %}
+                    <a class="ui animated fade inverted red disabled button">
+                        <div class="visible content"><i class="right arrow icon"></i></div>
+                        <div class="hidden content">after</div>
+                    </a>
+                {% endif %}
+
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect,HttpResponse
-from Sengokuapp.models import People,Domain,Domain,Road,Comment,UserProfile,Message
+from Sengokuapp.models import People,Domain,Domain,Road,Comment,UserProfile,Message,Family
 from django.template import Context
 from Sengokuapp.forms import Commentform,Registerform,Loginform,Editform,Messageform
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
@@ -52,17 +52,83 @@ def index(request):
     Context['Domainsyad'] = Domainsyad
     return render(request,'index.html',Context)
 
-def domain(request,domainid):
+def family(request):
     Context={}
-    query=request.GET.get('gender')
+    query = request.GET.get('gender')
     if query:
-        Thelist = Domain.objects.filter(gender=query)
+        Thelist = Family.objects.filter(gender=query)
     else:
-        Thelist = Domain.objects.all()
+        Thelist = Family.objects.all()
+    #分页功能
+    page_machine = Paginator(Thelist,16)
+    Thepage = request.GET.get('page')
+    try:
+        Thelist = page_machine.page(Thepage)
+    except EmptyPage:
+        Thelist = page_machine.page(page_machine.num_pages)
+    except PageNotAnInteger:
+        Thelist = page_machine.page(1)
     #导航栏
     Roadlist = Road.objects.all()
-    Context['Roadlist'] = Roadlist
     Context['Thelist'] = Thelist
+    Domainjj = Family.objects.filter(gender='jj')
+    Context['Domainjj'] = Domainjj
+    Domaindhd = Family.objects.filter(gender='dhd')
+    Context['Domaindhd'] = Domaindhd
+    Domaindsd = Family.objects.filter(gender='dsd')
+    Context['Domaindsd'] = Domaindsd
+    Domainxhd = Family.objects.filter(gender='xhd')
+    Context['Domainxhd'] = Domainxhd
+    Domainnhd = Family.objects.filter(gender='nhd')
+    Context['Domainnhd'] = Domainnhd
+    Domainbld = Family.objects.filter(gender='bld')
+    Context['Domainbld'] = Domainbld
+    Domainsyd = Family.objects.filter(gender='syd')
+    Context['Domainsyd'] = Domainsyd
+    Domainsyad = Family.objects.filter(gender='syad')
+    Context['Domainsyad'] = Domainsyad
+    return render(request,'Family.html',Context)
+
+#待修改
+def families(request,familyid):
+    Context={}
+    #获取对应id的大名家族
+    thefamily = Family.objects.get(id=familyid)
+    #获取对应武将列表
+    Thelist = People.objects.filter(belong_to=thefamily)
+    Context['Thelist'] = Thelist
+    #分页功能
+    page_machine = Paginator(Thelist,16)
+    Thepage = request.GET.get('page')
+    try:
+        Thelist = page_machine.page(Thepage)
+    except EmptyPage:
+        Thelist = page_machine.page(page_machine.num_pages)
+    except PageNotAnInteger:
+        Thelist = page_machine.page(1)
+    #导航栏
+    Context['Thelist'] = Thelist
+    Domainjj = Family.objects.filter(gender='jj')
+    Context['Domainjj'] = Domainjj
+    Domaindhd = Family.objects.filter(gender='dhd')
+    Context['Domaindhd'] = Domaindhd
+    Domaindsd = Family.objects.filter(gender='dsd')
+    Context['Domaindsd'] = Domaindsd
+    Domainxhd = Family.objects.filter(gender='xhd')
+    Context['Domainxhd'] = Domainxhd
+    Domainnhd = Family.objects.filter(gender='nhd')
+    Context['Domainnhd'] = Domainnhd
+    Domainbld = Family.objects.filter(gender='bld')
+    Context['Domainbld'] = Domainbld
+    Domainsyd = Family.objects.filter(gender='syd')
+    Context['Domainsyd'] = Domainsyd
+    Domainsyad = Family.objects.filter(gender='syad')
+    Context['Domainsyad'] = Domainsyad
+    return render(request,'Families.html',Context)
+
+def domain(request,domainid):
+    Context={}
+    #导航栏
     Domainjj = Domain.objects.filter(gender='jj')
     Context['Domainjj'] = Domainjj
     Domaindhd = Domain.objects.filter(gender='dhd')

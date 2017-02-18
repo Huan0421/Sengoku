@@ -5,21 +5,13 @@
         <meta charset="utf-8">
         <title>戦國網（公测版）</title>
         <link rel="stylesheet" href="{% static '../static/css/semantic.css' %}" media="screen" title="no title" charset="utf-8">
-        <audio src="../static/auto/Japanese.mp3" controls autoplay></audio>
+        <audio src="../static/auto/Japanese.mp3" autoplay></audio>
     </head>
     <body id="app">
         <div class="ui basic segment" style="padding:0;">
             <div class="ui inverted fixed menu">
-                <div  class="ui simple dropdown item">
-                    <a href="{% url 'index' %}">五畿七道</a>
-                    <i class="dropdown icon"></i>
-                    <div class="menu">
-                    {% for one in Roadlist %}
-                        <a href="?gender={{one.gender}}" class="item">
-                            {{one.name}}
-                        </a>
-                    {% endfor %}
-                    </div>
+                <div  class="ui simple item">
+                    <a href="{% url 'family' %}">战国大名</a>
                 </div>
                 <div class="ui simple dropdown item">
                     <a href="?gender=jj">近畿</a>
